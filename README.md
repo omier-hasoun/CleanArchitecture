@@ -133,8 +133,6 @@ Included:
   - Adds `IsDeleted`, `DeletedAtUtc`, `DeletedBy`
 - `IDomainEvent`
 
----
-
 ### **Application**
 
 The Application layer contains all reusable application-level logic and patterns.
@@ -154,8 +152,6 @@ Contains:
   - External services (email, cache, etc.)
 - Mapping configuration (Mapster/AutoMapper)
 
----
-
 ### **Web.Api**
 
 Minimal API setup following modern .NET 10 practices.
@@ -168,8 +164,6 @@ Includes:
 - Swagger/OpenAPI
 - Health checks
 - Application + Infrastructure bootstrapping
-
----
 
 ### **Infrastructure**
 
