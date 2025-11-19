@@ -26,27 +26,40 @@ You can start every project directly from your domain without being slowed down 
 
 ## 🧱 Project Structure
 
-src/
-Api/
-└── Endpoints/
-Application/
-├── Behaviors/
-├── Common/
-├── Interfaces/
-└── DependencyInjection.cs
-Domain/
-├── Common/
-└── DependencyInjection.cs
-Infrastructure/
-├── Persistence/
-├── Services/
-├── Configurations/
-└── DependencyInjection.cs
-
-tests/
-UnitTests/
-IntegrationTests/
-ArchitectureTests/
+```
+📦 CleanArchitectureTemplate
+│
+├── 📁 Web.Api
+│   ├── 📁 Endpoints               # Minimal API endpoints & request/response models
+│   └── 📄 DependencyInjection.cs  # API-level DI & pipeline configuration
+│
+├── 📁 Application
+│   ├── 📁 Common
+│   │   └── 📁 Abstractions        # Interfaces for services, mapping, caching, etc.
+│   ├── 📁 Features                # Each feature slice (CQRS commands, queries, handlers)
+│   └── 📄 DependencyInjection.cs  # Application DI (MediatR, Validators, Behaviors)
+│
+├── 📁 Domain
+│   ├── 📁 Common
+│   │   └── 📁 Abstractions        # Domain contracts (interfaces that domain *defines*)
+│   ├── 📁 Entities                # Each entity slice (aggregate roots, owned types)
+│
+├── 📁 Infrastructure
+│   ├── 📁 Common
+│   │   └── 📁 Abstractions        # Infrastructure-specific interfaces (e.g., email provider)
+│   ├── 📁 Data
+│   │   ├── 📁 Interceptors        # SaveChanges, audit, soft-delete interceptors
+│   │   ├── 📁 Migrations          # EF Core migrations
+│   │   ├── 📁 Configs             # EF EntityTypeConfiguration files
+│   │   └── 📄 AppDbContext.cs     # Main EF DbContext + IdentityDbContext integration
+│   ├── 📁 Services                # External integrations (email, storage, cache, etc.)
+│   └── 📄 DependencyInjection.cs  # Infrastructure DI (DbContext, Identity, services)
+│
+└── 📁 Shared
+    ├── 📁 Results                 # Result pattern, errors, result markers
+    ├── 📁 Constants               # SystemConstants, shared cross-layer constants
+    └── 📁 Helpers                 # General-purpose utilities
+```
 
 ---
 
@@ -58,8 +71,11 @@ The Shared layer contains cross-cutting utilities and primitives that are used a
 This layer has no dependencies on Domain, Application, Infrastructure, or API — ensuring it remains fully reusable and stable.
 All layers can reference this layer.
 
+Included:
 
-Uses Result<T> as an immutable wrapper for returned values or errors
+🔹 Result pattern
+
+Result<T> as an immutable wrapper for returned values or errors
 
 Provides IResult and IResult<T> interfaces
 
@@ -140,7 +156,7 @@ Contains:
 
 ---
 
-### **API**
+### **Web.Api**
 
 Minimal API setup following modern .NET 10 practices.
 
