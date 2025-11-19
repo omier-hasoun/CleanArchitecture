@@ -13,6 +13,7 @@ public interface IAuditableEntity
 }
 
 public class AuditableEntity<TId> : SoftDeletableEntity<TId>, IAuditableEntity
+where TId : struct, IEquatable<TId>
 {
     public DateTimeOffset CreatedAtUtc { get; private set; }
     public string CreatedBy { get; private set; } = string.Empty;

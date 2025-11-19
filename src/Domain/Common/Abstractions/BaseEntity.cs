@@ -2,6 +2,7 @@ namespace Domain.Common.Abstractions;
 
 public interface IBaseEntity; // for filteration
 public abstract class BaseEntity<TId> : IBaseEntity
+where TId : struct, IEquatable<TId>
 {
     public TId Id { get; private set; }
 

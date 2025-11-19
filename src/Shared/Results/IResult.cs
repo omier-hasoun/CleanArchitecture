@@ -1,9 +1,5 @@
 namespace Shared.Results;
 
-/// <summary>
-///  Used in case you want to filter objects
-///  that are inheriting IResult
-/// </summary>
 public interface IResult
 {
     bool IsSuccess { get; }

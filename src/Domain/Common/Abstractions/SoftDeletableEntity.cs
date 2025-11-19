@@ -12,6 +12,7 @@ public interface ISofDeletableEntity
 }
 
 public abstract class SoftDeletableEntity<TId> : BaseEntity<TId>, ISofDeletableEntity
+where TId : struct, IEquatable<TId>
 {
     public bool IsDeleted => _isDeleted;
     public DateTimeOffset? DeletedAtUtc => _deletedAtUtc;
