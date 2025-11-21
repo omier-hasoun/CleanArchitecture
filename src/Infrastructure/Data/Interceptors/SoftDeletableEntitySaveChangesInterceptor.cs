@@ -9,18 +9,20 @@ public sealed class SoftDeletableEntitySaveChangesInterceptor(IUserContext user,
         if (eventData.Context is null)
             return await ValueTask.FromResult(result);
 
-        var entries = eventData.Context.ChangeTracker.Entries<ISofDeletableEntity>();
-        var utcNow = dateTime.GetUtcNow();
+        var entries = eventData.Context.ChangeTracker.Entries<ISofDeletable>();
 
         foreach (var entry in entries)
         {
+            var utcNow = dateTime.GetUtcNow();
             if (entry.State != EntityState.Deleted)
             {
                 continue;
             }
 
             entry.State = EntityState.Modified;
-            entry.Entity.Delete(user.Id, utcNow);
+            entry.Entity.IsDeleted = true;
+            entry.Entity.DeletedAt = utcNow;
+            entry.Entity.DeletedBy = user.Id;
         }
 
         return await base.SavingChangesAsync(eventData, result, ct);

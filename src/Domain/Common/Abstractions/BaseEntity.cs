@@ -1,28 +1,17 @@
+
 namespace Domain.Common.Abstractions;
 
-public interface IBaseEntity; // for filteration
-public abstract class BaseEntity<TId> : IBaseEntity
-where TId : struct, IEquatable<TId>
+public abstract class BaseEntity : IBaseEntity
 {
-    public TId Id { get; private set; }
+    public Guid Id { get; private set; }
+    public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents.AsReadOnly();
+
 
     private readonly List<IDomainEvent> _domainEvents = [];
 
-    protected BaseEntity(TId? id = default)
+    protected BaseEntity(Guid id = default)
     {
-        if (id is Guid guidValue)
-        {
-            this.Id = (TId)(object)(guidValue == default ? Guid.CreateVersion7() : guidValue);
-        }
-        else if (id is int intVlaue)
-        {
-            this.Id = (TId)(object)(intVlaue >= 0 ? id :
-            throw new ArgumentException($"Negative integer not allowed for {nameof(id)}"));
-        }
-        else
-        {
-            throw new NotSupportedException($"only Guid and int types are allowed for {nameof(id)}");
-        }
+        this.Id = id == default ? Guid.CreateVersion7() : id;
     }
 
     public void AddDomainEvent(IDomainEvent domainEvent)

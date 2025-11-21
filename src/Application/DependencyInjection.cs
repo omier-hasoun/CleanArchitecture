@@ -1,3 +1,4 @@
+using Domain.Common.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Application;
@@ -13,8 +14,6 @@ public static class DependencyInjection
     private static IServiceCollection AddCustomServices(this IServiceCollection services)
     {
         // for simple dependency injection Transient/Singleton/Scoped
-
-
         return services;
     }
 }

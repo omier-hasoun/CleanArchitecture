@@ -1,49 +1,55 @@
 
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+
 namespace Infrastructure.Data.Interceptors;
 
 public sealed class AuditableEntitySaveChangesInterceptor : SaveChangesInterceptor
 {
     private readonly IUserContext _user;
 
-    private readonly TimeProvider _dateTime;
+    private readonly TimeProvider _timeProvider;
     public AuditableEntitySaveChangesInterceptor(IUserContext user, TimeProvider dateTime)
     {
-        _dateTime = dateTime;
+        _timeProvider = dateTime;
         _user = user;
     }
     public override async ValueTask<InterceptionResult<int>> SavingChangesAsync(DbContextEventData eventData, InterceptionResult<int> result, CancellationToken ct = default)
     {
-        if (eventData.Context is null)
-            return await ValueTask.FromResult(result);
-
-        DateTimeOffset utcNow = _dateTime.GetUtcNow();
-        foreach (var entry in eventData.Context.ChangeTracker.Entries<IAuditableEntity>())
-        {
-
-            if (entry.State == EntityState.Added)
-            {
-                entry.Entity.SetCreated(_user.Id, utcNow);
-            }
-
-            entry.Entity.SetModified(_user.Id, utcNow);
-
-            foreach (var ownedEntry in entry.References)
-            {
-                if (ownedEntry.TargetEntry != null && ownedEntry.TargetEntry is { Entity: IAuditableEntity })
-                {
-                    if (ownedEntry.TargetEntry.State == EntityState.Added)
-                    {
-                        entry.Entity.SetCreated(_user.Id, utcNow);
-                        // SetModified will be called internally
-                        continue;
-                    }
-
-                    entry.Entity.SetModified(_user.Id, utcNow);
-                }
-            }
-
-        }
-
+        UpdateAuditableEntities(eventData);
         return await base.SavingChangesAsync(eventData, result, ct);
     }
+
+    private void UpdateAuditableEntities(DbContextEventData eventData)
+    {
+
+        if (eventData.Context is null)
+            return;
+
+        var entries = eventData.Context.ChangeTracker.Entries<IAuditable>();
+        string userId = _user.Id;
+
+        foreach (var entry in entries)
+        {
+
+            DateTimeOffset utcNow = _timeProvider.GetUtcNow();
+            var entity = entry.Entity;
+            if (entry.State is EntityState.Added)
+            {
+                entity.CreatedAt = utcNow;
+                entity.CreatedBy = userId;
+            }
+
+            // Skip unchanged entities and hard deletes (non soft-deletable)
+            if (entry.State == EntityState.Unchanged || entry.State == EntityState.Deleted && entity is not ISofDeletable)
+            {
+                continue;
+            }
+
+            entity.LastModifiedAt = utcNow;
+            entity.LastModifiedBy = userId;
+        }
+
+    }
+
+
 }

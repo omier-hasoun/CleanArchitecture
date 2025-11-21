@@ -2,5 +2,5 @@ namespace Application.Common.Abstractions;
 
 public interface IUserContext
 {
-    string? Id { get; set; }
+    string Id { get; set; }
 }
