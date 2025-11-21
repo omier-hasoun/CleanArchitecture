@@ -23,7 +23,7 @@ public readonly record struct Error
     => new(code, description, ErrorType.Unexpected);
     public static Error Unauthorized(string code, string description = "Unauthorized.")
     => new(code, description, ErrorType.Unauthorized);
-    public static Error Validation(string code, string description = "Invalid operation.")
+    public static Error Validation(string code, string description = "Validation error.")
     => new(code, description, ErrorType.Validation);
     public static Error Forbidden(string code, string description = "Forbidden operation.")
     => new(code, description, ErrorType.Forbidden);

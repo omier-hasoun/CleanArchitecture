@@ -25,7 +25,7 @@ public sealed class AuditableEntitySaveChangesInterceptor : SaveChangesIntercept
         if (eventData.Context is null)
             return;
 
-        var entries = eventData.Context.ChangeTracker.Entries<IAuditable>();
+        var entries = eventData.Context.ChangeTracker.Entries<AuditableEntity>();
         string userId = _user.Id;
 
         foreach (var entry in entries)
@@ -35,8 +35,7 @@ public sealed class AuditableEntitySaveChangesInterceptor : SaveChangesIntercept
             var entity = entry.Entity;
             if (entry.State is EntityState.Added)
             {
-                entity.CreatedAt = utcNow;
-                entity.CreatedBy = userId;
+                entity._setCreated(userId, utcNow);
             }
 
             // Skip unchanged entities and hard deletes (non soft-deletable)
@@ -45,10 +44,9 @@ public sealed class AuditableEntitySaveChangesInterceptor : SaveChangesIntercept
                 continue;
             }
 
-            entity.LastModifiedAt = utcNow;
-            entity.LastModifiedBy = userId;
-        }
+            entity._setModified(userId, utcNow);
 
+        }
     }
 
 

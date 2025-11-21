@@ -27,8 +27,8 @@ public readonly record struct Result<TValue> : IResult<TValue>
 {
     private readonly TValue? _value = default;
     private readonly List<Error>? _errors = [];
-    public bool IsSuccess { get; }
-    public bool IsFailure => !IsSuccess;
+    public bool Succeeded { get; }
+    public bool Failed => !Succeeded;
     public List<Error> Errors => _errors!;
     public Error TopError => (_errors?.Count > 0) ? Errors[0] : default;
 
@@ -36,7 +36,7 @@ public readonly record struct Result<TValue> : IResult<TValue>
     {
         get
         {
-            if (IsSuccess)
+            if (Succeeded)
             {
                 return _value!;
             }
@@ -50,7 +50,7 @@ public readonly record struct Result<TValue> : IResult<TValue>
     [Obsolete("")]
     public Result(TValue value, List<Error> errors, bool isSuccess)
     {
-        IsSuccess = isSuccess;
+        Succeeded = isSuccess;
         _errors = errors;
         _value = value;
 
@@ -62,7 +62,7 @@ public readonly record struct Result<TValue> : IResult<TValue>
         {
             throw new ArgumentNullException("errors list is empty");
         }
-        IsSuccess = false;
+        Succeeded = false;
         _errors = errors!;
     }
 
@@ -74,10 +74,10 @@ public readonly record struct Result<TValue> : IResult<TValue>
         }
 
         _value = value;
-        IsSuccess = true;
+        Succeeded = true;
     }
     public TNextValue Match<TNextValue>(Func<TValue, TNextValue> OnSuccess, Func<List<Error>, TNextValue> OnError)
-        => IsSuccess ? OnSuccess(Value!) : OnError(Errors);
+        => Succeeded ? OnSuccess(Value!) : OnError(Errors);
 
     public static implicit operator Result<TValue>(TValue value)
         => new(value: value);

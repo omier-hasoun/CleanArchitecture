@@ -1,9 +1,9 @@
 
 namespace Domain.Common.Abstractions;
 
-public abstract class BaseEntity : IBaseEntity
+public abstract class BaseEntity
 {
-    public Guid Id { get; private set; }
+    public Guid Id { get; }
     public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents.AsReadOnly();
 
 

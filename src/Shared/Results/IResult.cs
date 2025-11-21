@@ -2,8 +2,8 @@ namespace Shared.Results;
 
 public interface IResult
 {
-    bool IsSuccess { get; }
-    bool IsFailure { get; }
+    bool Succeeded { get; }
+    bool Failed { get; }
 
 }
 
