@@ -15,7 +15,7 @@ public static class DependencyInjection
     private static IServiceCollection AddCustomServices(this IServiceCollection services, IConfiguration config)
     {
         // for simple dependency injection Transient/Singleton/Scoped
-        services.Configure<UserAccountOptions>(config);
+        services.Configure<UserAccountOptions>(config.GetSection("UserAccountOptions"));
         return services;
     }
 }

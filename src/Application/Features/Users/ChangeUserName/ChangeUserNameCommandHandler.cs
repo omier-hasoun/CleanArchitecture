@@ -5,7 +5,7 @@ public class ChangeUserNameCommandHandler : IRequestHandler<ChangeUserNameComman
 {
 
 
-    Task<Result<Updated>> IRequestHandler<ChangeUserNameCommand, Result<Updated>>.Handle(ChangeUserNameCommand request, CancellationToken cancellationToken)
+    Task<Result<Updated>> IRequestHandler<ChangeUserNameCommand, Result<Updated>>.Handle(ChangeUserNameCommand request, CancellationToken ct)
     {
         throw new NotImplementedException();
     }
