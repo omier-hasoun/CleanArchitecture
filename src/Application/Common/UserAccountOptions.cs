@@ -1,6 +1,5 @@
-using Application.Features.Identity.Get;
 
-namespace Application.Features.Users;
+namespace Application.Common;
 
 public sealed class UserAccountOptions
 {
@@ -10,7 +9,7 @@ public sealed class UserAccountOptions
     public int MaxPasswordLength { get { return 40; } }
     public bool PasswordRequiresDigit { get { return true; } }
 
-    private UserAccountOptions()
+    public UserAccountOptions()
     {
         if (MinPasswordLength > MaxPasswordLength || MinUserNameLength > MaxUserNameLength)
             throw new InvalidOperationException("Min length cannot be greater than max length");

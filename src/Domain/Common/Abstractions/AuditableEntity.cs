@@ -9,9 +9,9 @@ public abstract class AuditableEntity : BaseEntity
 
     }
     public DateTimeOffset CreatedAt { get; private set; }
-    public string CreatedBy { get; private set; } = string.Empty;
+    public Guid CreatedBy { get; private set; }
     public DateTimeOffset LastModifiedAt { get; private set; }
-    public string LastModifiedBy { get; private set; } = string.Empty;
+    public Guid LastModifiedBy { get; private set; }
 
 
     /// <summary>
@@ -20,7 +20,7 @@ public abstract class AuditableEntity : BaseEntity
     /// <param name="userId"></param>
     /// <param name="utcNow"></param>
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public void _setCreated(string userId, DateTimeOffset utcNow = default)
+    public void _setCreated(Guid userId, DateTimeOffset utcNow = default)
     {
         CreatedBy = userId;
         CreatedAt = utcNow == default ? DateTimeOffset.UtcNow : utcNow;
@@ -35,7 +35,7 @@ public abstract class AuditableEntity : BaseEntity
     /// <param name="userId"></param>
     /// <param name="utcNow"></param>
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public void _setModified(string userId, DateTimeOffset utcNow)
+    public void _setModified(Guid userId, DateTimeOffset utcNow)
     {
         LastModifiedBy = userId;
         LastModifiedAt = utcNow == default ? DateTimeOffset.UtcNow : utcNow;

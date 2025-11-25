@@ -53,8 +53,8 @@ public static class DependencyInjection
 
         services.Configure<IdentityOptions>(options =>
         {
-            options.Password.RequiredLength = UserAccountOptions.MinPasswordLength;
-            options.Password.RequireDigit = UserAccountOptions.PasswordRequiresDigit;
+            options.Password.RequiredLength = 6;
+            options.Password.RequireDigit = true;
             options.Password.RequireUppercase = false;
             options.Password.RequiredUniqueChars = 0;
             options.Password.RequireNonAlphanumeric = true;
@@ -84,11 +84,9 @@ public static class DependencyInjection
             options.LoginPath = "/Identity/Account/Login";
             options.AccessDeniedPath = "/Identity/Account/AccessDenied";
             options.SlidingExpiration = true;
-            
+
 
         });
-
-        services.AddIdentityCore
 
         return services;
     }

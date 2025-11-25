@@ -18,7 +18,7 @@ public class ChangeUserNameCommandValidator : AbstractValidator<ChangeUserNameCo
         .NotEmpty()
         .WithErrorCode(UsersErrors.UserNameRequired)
         .WithMessage("username is required.")
-        .Length(op., op.MaxUserNameLength)
+        .Length(op.MinPasswordLength, op.MaxUserNameLength)
         .WithErrorCode(UsersErrors.UserNameLengthInvalid)
         .WithMessage("The new username must be between {MinLength} and {MaxLength} characters. You entered {TotalLength} characters.");
 

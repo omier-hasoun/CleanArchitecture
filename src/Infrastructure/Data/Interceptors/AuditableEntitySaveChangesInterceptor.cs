@@ -26,7 +26,7 @@ public sealed class AuditableEntitySaveChangesInterceptor : SaveChangesIntercept
             return;
 
         var entries = eventData.Context.ChangeTracker.Entries<AuditableEntity>();
-        string userId = _user.Id;
+        Guid userId = _user.Id;
 
         foreach (var entry in entries)
         {

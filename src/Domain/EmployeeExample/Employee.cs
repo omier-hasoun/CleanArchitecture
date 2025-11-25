@@ -56,15 +56,15 @@ public class Employee : AuditableEntity, ISofDeletable
     #region Properties
 
 
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
+    public string FirstName { get; set; } = "";
+    public string LastName { get; set; } = "";
 
     public string FullName { get { return $"{FirstName} {LastName}"; } }
     public DateTime DateOfBirth { get; private set; }
 
     public bool IsDeleted { get; set; }
     public DateTimeOffset? DeletedAt { get; set; }
-    public string? DeletedBy { get; set; }
+    public Guid? DeletedBy { get; set; }
 
     #endregion
 
