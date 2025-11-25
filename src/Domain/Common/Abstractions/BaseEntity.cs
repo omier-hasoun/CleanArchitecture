@@ -3,15 +3,20 @@ namespace Domain.Common.Abstractions;
 
 public abstract class BaseEntity
 {
-    public Guid Id { get; }
+    public Guid Id
+    {
+        get => field;
+        set =>
+        field = value == Guid.Empty ? Guid.CreateVersion7() : value;
+    }
     public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents.AsReadOnly();
 
 
     private readonly List<IDomainEvent> _domainEvents = [];
 
-    protected BaseEntity(Guid id = default)
+    protected BaseEntity()
     {
-        this.Id = id == default ? Guid.CreateVersion7() : id;
+
     }
 
     public void AddDomainEvent(IDomainEvent domainEvent)
@@ -27,7 +32,7 @@ public abstract class BaseEntity
         _domainEvents.Remove(domainEvent);
     }
 
-    public void ClearDomainEvents(IDomainEvent domainEvent)
+    public void ClearDomainEvents()
     {
         _domainEvents.Clear();
     }

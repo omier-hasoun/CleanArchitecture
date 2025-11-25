@@ -4,7 +4,7 @@ namespace Domain.Common.Abstractions;
 
 public abstract class AuditableEntity : BaseEntity
 {
-    protected AuditableEntity(Guid id = default) : base(id)
+    protected AuditableEntity() : base()
     {
 
     }

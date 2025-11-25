@@ -12,7 +12,7 @@ public class BaseEntityConfig : IEntityTypeConfiguration<BaseEntity>
 
 
         builder.Property(x => x.Id)
-               .ValueGeneratedOnAdd();
+               .ValueGeneratedNever();
 
     }
 }

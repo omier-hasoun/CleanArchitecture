@@ -9,7 +9,18 @@ public static class DependencyInjection
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration config)
     {
         services.AddCustomServices()
-                .AddDatabaseService(config);
+                .AddDatabaseService(config)
+                .AddIdentityService(config)
+
+
+
+
+
+
+
+
+
+                ;
 
         return services;
     }
@@ -26,7 +37,7 @@ public static class DependencyInjection
     {
         string connString = config.GetConnectionString("Default")!;
 
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(connString);
+        ArgumentException.ThrowIfNullOrWhiteSpace(connString);
 
         services.AddDbContext<AppDbContext>(options =>
         {
@@ -34,6 +45,50 @@ public static class DependencyInjection
         });
 
         services.AddScoped<IAppDbContext, AppDbContext>();
+        return services;
+    }
+
+    private static IServiceCollection AddIdentityService(this IServiceCollection services, IConfiguration config)
+    {
+
+        services.Configure<IdentityOptions>(options =>
+        {
+            options.Password.RequiredLength = UserAccountOptions.MinPasswordLength;
+            options.Password.RequireDigit = UserAccountOptions.PasswordRequiresDigit;
+            options.Password.RequireUppercase = false;
+            options.Password.RequiredUniqueChars = 0;
+            options.Password.RequireNonAlphanumeric = true;
+
+            // Lockout settings.
+            options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+            options.Lockout.MaxFailedAccessAttempts = 5;
+            options.Lockout.AllowedForNewUsers = true;
+
+            // User settings.
+            options.User.AllowedUserNameCharacters =
+            "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+            options.User.RequireUniqueEmail = true;
+
+            options.SignIn.RequireConfirmedAccount = false;
+            options.SignIn.RequireConfirmedPhoneNumber = false;
+            options.SignIn.RequireConfirmedPhoneNumber = false;
+
+        });
+
+        services.ConfigureApplicationCookie(options =>
+        {
+            // Cookie settings
+            options.Cookie.HttpOnly = true;
+            options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+
+            options.LoginPath = "/Identity/Account/Login";
+            options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+            options.SlidingExpiration = true;
+            
+
+        });
+
+        services.AddIdentityCore
 
         return services;
     }

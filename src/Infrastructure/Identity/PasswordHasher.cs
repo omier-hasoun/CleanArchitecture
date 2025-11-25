@@ -6,7 +6,7 @@ public sealed class PasswordHasher : IPasswordHasher
 {
     private const int _saltSize = 16; // 128 bit
     private const int _hashSize = 32; // 256 bit
-    private const int _iterations = 400000;
+    private const int _iterations = 200000;
     private readonly HashAlgorithmName _hashAlgorithm = HashAlgorithmName.SHA512;
 
     /// <summary>

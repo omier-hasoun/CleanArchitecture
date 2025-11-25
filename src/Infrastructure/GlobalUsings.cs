@@ -10,3 +10,8 @@ global using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 global using Microsoft.AspNetCore.Identity;
 global using Microsoft.EntityFrameworkCore.ChangeTracking;
 global using Infrastructure.Identity;
+global using System.Security.Claims;
+global using Shared.Results;
+global using Application.Features.Identity;
+global using Microsoft.AspNetCore.Authentication;
+global using Application.Features.Users;
