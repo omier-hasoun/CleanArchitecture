@@ -1,7 +1,9 @@
 
-namespace Infrastructure.Data.Config;
+using Infrastructure.Data.LinkEntities;
 
-public sealed class UserConfiguration : IEntityTypeConfiguration<User>
+namespace Infrastructure.Data.Config.Identity;
+
+public sealed class UserConfig : IEntityTypeConfiguration<User>
 {
     public void Configure(EntityTypeBuilder<User> builder)
     {
@@ -49,6 +51,12 @@ public sealed class UserConfiguration : IEntityTypeConfiguration<User>
 
         builder.Property(x => x.TwoFactorEnabled)
                .IsRequired();
+
+        builder.HasMany(x => x.Roles)
+               .WithMany()
+               .UsingEntity<UserRoles>()
+               .HasKey(x => new { x.UserId, x.RoleId });
+
 
         builder.Ignore(x => x.PhoneNumber);
         builder.Ignore(x => x.PhoneNumberConfirmed);

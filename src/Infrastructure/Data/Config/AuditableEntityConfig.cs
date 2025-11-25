@@ -1,9 +1,11 @@
 
 namespace Infrastructure.Data.Config;
 
-public sealed class AuditableEntityConfig : IEntityTypeConfiguration<AuditableEntity>
+// inherit for a domain entity that inherits AuditableEntity to apply all the inherited fields configuration
+public class AuditableEntityConfig<TEntity> : BaseEntityConfig<TEntity>
+where TEntity : AuditableEntity
 {
-    public void Configure(EntityTypeBuilder<AuditableEntity> builder)
+    public override void Configure(EntityTypeBuilder<TEntity> builder)
     {
         builder.Property(x => x.CreatedBy)
                .HasColumnType("CHAR(36)")

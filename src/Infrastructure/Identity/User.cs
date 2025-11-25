@@ -3,6 +3,7 @@ namespace Infrastructure.Identity;
 
 public class User : IdentityUser<Guid>
 {
+    public ICollection<UserRole> Roles { get; set; } = [];
     private User()
     {
 

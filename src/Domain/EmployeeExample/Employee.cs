@@ -4,9 +4,9 @@ namespace Domain.EmployeeExample;
 /*
 -Validatation:
 when creating a new instance using Factory method always check if data is
-valid (not null or empty,) and throw InvalidDataException that means
-that application layer validation didnt validate the data correctly
-just enforce validation in Application layer
+valid (not null or empty, contains spaces if should not) and throw InvalidDataException that means
+that application layer validation did not validate the data correctly,
+that enforces validation in Application layer
 After that you check the business rules and return a result based on the context.
 */
 
@@ -25,12 +25,12 @@ public class Employee : AuditableEntity, ISofDeletable
 
     public static Result<Employee> Create(string firstName, string lastName, DateTime dateOfBirth, Guid id = default)
     {
-        if (string.IsNullOrWhiteSpace(firstName.Trim()))
+        if (firstName.Trim().Contains(' '))
         {
             throw new InvalidDataException(nameof(firstName));
         }
 
-        if (string.IsNullOrWhiteSpace(lastName.Trim()))
+        if (firstName.Trim().Contains(' '))
         {
             throw new InvalidDataException(nameof(lastName));
         }

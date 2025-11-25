@@ -1,4 +1,5 @@
 
+
 namespace Infrastructure.Data;
 
 public sealed class AppDbContext : IdentityDbContext<User, UserRole, Guid>, IAppDbContext
