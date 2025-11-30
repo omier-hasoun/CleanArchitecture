@@ -12,6 +12,6 @@ global using Microsoft.EntityFrameworkCore.ChangeTracking;
 global using Infrastructure.Identity;
 global using System.Security.Claims;
 global using Shared.Results;
-global using Application.Features;
 global using Microsoft.AspNetCore.Authentication;
-global using Application.Features.Users;
+global using Infrastructure.Data.JoinEntities;
+global using Application.Common;

@@ -1,8 +1,10 @@
 
 
+using Infrastructure.Data.JoinEntities;
+
 namespace Infrastructure.Data;
 
-public sealed class AppDbContext : IdentityDbContext<User, UserRole, Guid>, IAppDbContext
+public sealed class AppDbContext : IdentityDbContext<User, Role, Guid, UserClaim, UserRoles, UserLoginProvider, RoleClaim, UserToken, UserPasskey>, IAppDbContext
 {
     public AppDbContext(DbContextOptions options) : base(options)
     {
@@ -22,6 +24,7 @@ public sealed class AppDbContext : IdentityDbContext<User, UserRole, Guid>, IApp
     {
         builder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
 
+        // Softdelete configuration for all Entities implementing ISofDeletable
         ConfigurePropertiesForInterface<ISofDeletable>(builder, (b, type) =>
         {
             b.Property(nameof(ISofDeletable.DeletedAt))

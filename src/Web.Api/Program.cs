@@ -1,16 +1,52 @@
 
-var builder = WebApplication.CreateBuilder(args);
 
-builder.Configuration.AddUserSecrets("7f342e59-c0e1-4ef5-9bd1-126a96fa7a5b");
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 
-var config = builder.Configuration;
+namespace Web.Api
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddWebApiServices(config)
-                .AddApplicationServices(config)
-                .AddInfrastructureServices(config);
+            builder.WebHost.ConfigureKestrel(options =>
+            {
+                options.ListenAnyIP(5000); // Http
+                options.ListenAnyIP(5001, listenOptions =>
+                {
+                    listenOptions.Protocols = HttpProtocols.Http2 | HttpProtocols.Http3;
+                    listenOptions.UseHttps();
+                });
+            });
 
-var app = builder.Build();
+            builder.Configuration.AddUserSecrets("7f342e59-c0e1-4ef5-9bd1-126a96fa7a5b");
 
-app.MapGet("/", () => "Hello World!");
+            var config = builder.Configuration;
 
-app.Run();
+            builder.Services.AddWebApiServices(config)
+                            .AddApplicationServices(config)
+                            .AddInfrastructureServices(config);
+
+            var app = builder.Build();
+
+            app.MapIdentityApi<User>();
+
+
+            if (app.Environment.IsDevelopment())
+            {
+                app.MapScalarApiReference();
+                app.MapOpenApi();
+                app.MapGet("/", () => "Hello World!");
+            }
+            else
+            {
+                // app.UseHsts();
+            }
+
+
+
+            app.Run();
+        }
+    }
+}

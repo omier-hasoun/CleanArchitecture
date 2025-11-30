@@ -25,9 +25,9 @@ public static class Result
 
 public readonly record struct Result<TValue> : IResult<TValue>
 {
-    private readonly TValue? _value = default;
+
     private readonly List<Error>? _errors = [];
-    public bool Succeeded { get; }
+    public bool Succeeded => field;
     public bool Failed => !Succeeded;
     public List<Error> Errors => _errors!;
     public Error TopError => (_errors?.Count > 0) ? Errors[0] : default;
@@ -38,7 +38,7 @@ public readonly record struct Result<TValue> : IResult<TValue>
         {
             if (Succeeded)
             {
-                return _value!;
+                return field!;
             }
 
             throw new InvalidResultAccessException();
@@ -52,7 +52,7 @@ public readonly record struct Result<TValue> : IResult<TValue>
     {
         Succeeded = isSuccess;
         _errors = errors;
-        _value = value;
+        Value = value;
 
     }
 
@@ -64,6 +64,7 @@ public readonly record struct Result<TValue> : IResult<TValue>
         }
         Succeeded = false;
         _errors = errors!;
+        Value = default;
     }
 
     private Result(TValue value)
@@ -73,7 +74,7 @@ public readonly record struct Result<TValue> : IResult<TValue>
             throw new ArgumentNullException(nameof(value));
         }
 
-        _value = value;
+        Value = value;
         Succeeded = true;
     }
     public TNextValue Match<TNextValue>(Func<TValue, TNextValue> OnSuccess, Func<List<Error>, TNextValue> OnError)

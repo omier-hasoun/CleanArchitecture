@@ -24,7 +24,7 @@ public static class DependencyInjection
 
     private static IServiceCollection AddUserAccountOptionsService(this IServiceCollection services, IConfiguration config)
     {
-        services.Configure<UserAccountOptions>(config.GetSection("UserAccountOptions"));
+        services.Configure<UserAccountSettings>(config.GetSection("UserAccountOptions"));
 
         return services;
     }

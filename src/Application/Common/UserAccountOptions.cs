@@ -1,18 +1,28 @@
 
 namespace Application.Common;
 
-public sealed class UserAccountOptions
+public class UserAccountSettings
 {
-    public int MinUserNameLength { get { return 6; } }
-    public int MaxUserNameLength { get { return 18; } }
-    public int MinPasswordLength { get { return 6; } }
-    public int MaxPasswordLength { get { return 40; } }
-    public bool PasswordRequiresDigit { get { return true; } }
+    // Username rules
+    public const int UserNameMinLength = 4;
+    public const int UserNameMaxLength = 20;
+    public const bool UserNameRequireUnique = true;
+    public const string AllowedUserNameChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_";
+    public const bool RequireUniqueEmail = true;
 
-    public UserAccountOptions()
-    {
-        if (MinPasswordLength > MaxPasswordLength || MinUserNameLength > MaxUserNameLength)
-            throw new InvalidOperationException("Min length cannot be greater than max length");
+    // Password rules
+    public const int PasswordMinLength = 4;
+    public const int PasswordMaxLength = 64;
+    public const bool PasswordRequireDigits = false;
+    public const bool PasswordRequireUppercase = false;
+    public const bool PasswordRequireLowercase = false;
+    public const bool PasswordRequireNonAlphanumeric = false; // special characters
+    public const int PasswordRequiredUniqueChars = 3; // number of distinct characters
 
-    }
+
+    // Optional lockout / security settings
+    public const int MaxFailedAccessAttempts = 3;
+    public const int DefaultLockoutMinutes = 5;
+    public const bool AllowLockOutForNewUsers = true;
+
 }

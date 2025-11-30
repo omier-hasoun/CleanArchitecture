@@ -1,5 +1,5 @@
 
-namespace Infrastructure.Data.Config;
+namespace Infrastructure.Data.Configs;
 
 // inherit for a domain entity that inherit BaseEntity to apply all the inherited fields configuration
 public class BaseEntityConfig<TEntity> : IEntityTypeConfiguration<TEntity>

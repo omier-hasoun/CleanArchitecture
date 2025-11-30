@@ -1,7 +1,6 @@
-
 namespace Infrastructure.Identity;
 
-public sealed class UserToken : IdentityUserToken<Guid>
+public sealed class UserLoginProvider : IdentityUserLogin<Guid>
 {
     public User? UserInfo { get; set; }
 }

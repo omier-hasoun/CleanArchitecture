@@ -1,28 +1,18 @@
 
 namespace Infrastructure.Identity;
 
-public class User : IdentityUser<Guid>
+public sealed class User : IdentityUser<Guid>
 {
-    public ICollection<UserRole> Roles { get; set; } = [];
-    private User()
+    public ICollection<UserClaim> Claims { get; set; } = [];
+    public UserLoginProvider? LinkedLoginProvider { get; set; }
+    public ICollection<UserToken> Tokens { get; set; } = [];
+    public ICollection<Role> Roles { get; set; } = [];
+
+
+    public User()
     {
-
-    }
-    private User(string userName, string email, string passwordHash, Guid id = default)
-    {
-        Id = id == default ? Guid.CreateVersion7() : id;
-        UserName = userName;
-        Email = email;
-        PasswordHash = passwordHash;
+        if (Id == default)
+            Id = Guid.CreateVersion7();
     }
 
-    public static Result<User> Create(string userName, string email, string passwordHash, Guid id = default)
-    {
-
-        ArgumentException.ThrowIfNullOrWhiteSpace(userName);
-        ArgumentException.ThrowIfNullOrWhiteSpace(email);
-        ArgumentException.ThrowIfNullOrWhiteSpace(passwordHash);
-
-        return new User(userName, email, passwordHash, id);
-    }
 }

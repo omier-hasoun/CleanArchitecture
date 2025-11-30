@@ -7,5 +7,5 @@ global using FluentValidation;
 global using Microsoft.Extensions.Options;
 global using Microsoft.AspNetCore.Identity;
 global using Application.Common;
-global using Application.Features.Users;
 global using Microsoft.EntityFrameworkCore;
+global using System.Security.Claims;

@@ -1,7 +1,7 @@
 
-using Infrastructure.Data.LinkEntities;
+using System.Runtime.CompilerServices;
 
-namespace Infrastructure.Data.Config.Identity;
+namespace Infrastructure.Data.Configs.IdentityConfigs;
 
 public sealed class UserConfig : IEntityTypeConfiguration<User>
 {
@@ -54,9 +54,7 @@ public sealed class UserConfig : IEntityTypeConfiguration<User>
 
         builder.HasMany(x => x.Roles)
                .WithMany()
-               .UsingEntity<UserRoles>()
-               .HasKey(x => new { x.UserId, x.RoleId });
-
+               .UsingEntity<UserRoles>();
 
         builder.Ignore(x => x.PhoneNumber);
         builder.Ignore(x => x.PhoneNumberConfirmed);
