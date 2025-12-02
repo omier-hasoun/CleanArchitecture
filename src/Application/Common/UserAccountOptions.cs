@@ -7,7 +7,7 @@ public class UserAccountSettings
     public const int UserNameMinLength = 4;
     public const int UserNameMaxLength = 20;
     public const bool UserNameRequireUnique = true;
-    public const string AllowedUserNameChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_";
+    public const string AllowedUserNameChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_@.-";
     public const bool RequireUniqueEmail = true;
 
     // Password rules

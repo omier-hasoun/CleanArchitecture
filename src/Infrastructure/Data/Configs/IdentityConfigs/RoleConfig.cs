@@ -10,7 +10,12 @@ public sealed class RoleConfig : IEntityTypeConfiguration<Role>
         builder.Property(x => x.Id)
                .ValueGeneratedNever();
 
-        builder.ToTable("Roles");
+        builder.Property(x => x.Name)
+               .HasColumnType("varchar(32)");
 
+        builder.Property(x => x.ConcurrencyStamp)
+               .HasColumnType("varchar(32)");
+
+        builder.ToTable("Roles");
     }
 }

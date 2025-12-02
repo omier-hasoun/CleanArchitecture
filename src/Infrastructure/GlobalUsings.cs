@@ -15,3 +15,4 @@ global using Shared.Results;
 global using Microsoft.AspNetCore.Authentication;
 global using Infrastructure.Data.JoinEntities;
 global using Application.Common;
+global using System.Diagnostics;

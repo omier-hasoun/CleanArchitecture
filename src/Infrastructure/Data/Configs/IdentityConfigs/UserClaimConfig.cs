@@ -8,15 +8,14 @@ public sealed class UserClaimConfig : IEntityTypeConfiguration<UserClaim>
         builder.HasKey(x => x.Id);
 
         builder.Property(x => x.Id)
-               .ValueGeneratedNever();
+               .ValueGeneratedOnAdd();
 
-        // builder.HasOne(x => x.Claims)
-        //        .WithOne()
-        //        .HasForeignKey(x => x.UserId)
-        //        .IsRequired()
-        //        .OnDelete(DeleteBehavior.Cascade);
+        builder.HasOne<User>()
+               .WithMany(x => x.Claims)
+               .HasForeignKey(x => x.UserId)
+               .IsRequired()
+               .OnDelete(DeleteBehavior.Cascade);
 
         builder.ToTable("UserClaims");
-
     }
 }

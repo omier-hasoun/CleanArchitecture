@@ -24,15 +24,14 @@ public static class DependencyInjection
     {
         // for simple dependency injection Transient/Singleton/Scoped
         services.AddSingleton(TimeProvider.System);
+        services.AddScoped<IPasswordHasher<User>, AppPasswordHasher>();
 
         return services;
     }
 
     private static IServiceCollection AddDatabaseService(this IServiceCollection services, IConfiguration config)
     {
-        string connString = config.GetConnectionString("Default") ?? throw new InvalidOperationException("Connection string 'Default' not found.");
-
-        ArgumentException.ThrowIfNullOrWhiteSpace(connString);
+        string connString = config.GetConnectionString("Default") ?? throw new ArgumentNullException("Connection string 'Default' not found.");
 
         services.AddDbContext<AppDbContext>(options =>
         {

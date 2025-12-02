@@ -10,15 +10,15 @@ namespace Web.Api
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.WebHost.ConfigureKestrel(options =>
-            {
-                options.ListenAnyIP(5000); // Http
-                options.ListenAnyIP(5001, listenOptions =>
-                {
-                    listenOptions.Protocols = HttpProtocols.Http2 | HttpProtocols.Http3;
-                    listenOptions.UseHttps();
-                });
-            });
+            // builder.WebHost.ConfigureKestrel(options =>
+            // {
+            //     options.ListenAnyIP(5000); // Http
+            //     options.ListenAnyIP(5001, listenOptions =>
+            //     {
+            //         listenOptions.Protocols = HttpProtocols.Http2 | HttpProtocols.Http3;
+            //         listenOptions.UseHttps();
+            //     });
+            // });
 
             builder.Configuration.AddUserSecrets("7f342e59-c0e1-4ef5-9bd1-126a96fa7a5b");
 

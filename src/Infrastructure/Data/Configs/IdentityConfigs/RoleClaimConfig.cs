@@ -11,14 +11,18 @@ public sealed class RoleClaimConfig : IEntityTypeConfiguration<RoleClaim>
                .ValueGeneratedOnAdd();
 
         builder.Property(x => x.ClaimType)
-               .HasColumnType("VARCHAR(30)")
+               .HasColumnType("VARCHAR(32)")
                .IsRequired();
 
         builder.Property(x => x.ClaimValue)
                .HasColumnType("VARCHAR(128)")
                .IsRequired();
 
-        // builder.HasOne<
+        builder.HasOne(x => x.Role)
+               .WithMany(x => x.RoleClaims)
+               .HasForeignKey(x => x.RoleId)
+               .IsRequired()
+               .OnDelete(DeleteBehavior.Cascade);
 
         builder.ToTable("RoleClaims");
     }

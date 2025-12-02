@@ -15,7 +15,6 @@ public sealed class UserTokenConfig : IEntityTypeConfiguration<UserToken>
                .HasColumnType("VARCHAR(64)")
                .IsRequired();
 
-
         builder.HasOne(x => x.UserInfo)
                .WithMany(x => x.Tokens)
                .HasForeignKey(x => x.UserId)

@@ -52,7 +52,7 @@ public static class DependencyInjection
 
             // Identity stores settings.
             options.Stores.MaxLengthForKeys = 128;
-            options.Stores.ProtectPersonalData = true;
+            options.Stores.ProtectPersonalData = false;
             options.Stores.SchemaVersion = IdentitySchemaVersions.Version1;
 
             // Claims settings.
@@ -61,9 +61,10 @@ public static class DependencyInjection
             options.ClaimsIdentity.UserNameClaimType = "username";
             options.ClaimsIdentity.EmailClaimType = "email";
             options.ClaimsIdentity.SecurityStampClaimType = "security_stamp";
+
         })
+        .AddRoles<Role>()
         .AddEntityFrameworkStores<AppDbContext>()
-        .AddSignInManager<SignInManager<User>>()
         .AddApiEndpoints();
 
         services.AddTransient<IEmailSender<User>, EmailSenderFaker>();
@@ -74,8 +75,17 @@ public static class DependencyInjection
     private static IServiceCollection AddAuthenticationService(this IServiceCollection services)
     {
         services.AddAuthentication()
-                .AddBearerToken(IdentityConstants.BearerScheme);
-
+                .AddCookie(IdentityConstants.ApplicationScheme, options =>
+                {
+                    options.Cookie.Domain = null; // default
+                    options.Cookie.Name = "AuthCookie";
+                    options.Cookie.SameSite = SameSiteMode.Lax;
+                    options.Cookie.HttpOnly = true;
+                    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+                    options.SlidingExpiration = true;
+                    options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
+                    options.Validate();
+                });
         return services;
     }
 

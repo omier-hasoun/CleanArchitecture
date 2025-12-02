@@ -13,11 +13,11 @@ public sealed class UserConfig : IEntityTypeConfiguration<User>
                .ValueGeneratedNever();
 
         builder.Property(x => x.Email)
-               .HasColumnType("VARCHAR(254)")
+               .HasColumnType("VARCHAR(256)")
                .IsRequired();
 
         builder.Property(x => x.NormalizedEmail)
-               .HasColumnType("VARCHAR(254)")
+               .HasColumnType("VARCHAR(256)") // max length for an email is 254 chars so 256 is enough for emails
                .IsRequired();
 
         builder.Property(x => x.ConcurrencyStamp)
@@ -38,15 +38,15 @@ public sealed class UserConfig : IEntityTypeConfiguration<User>
                .IsRequired();
 
         builder.Property(x => x.PasswordHash)
-               .HasColumnType("VARCHAR(100)")// password hash length is 69 chars!
+               .HasColumnType("VARCHAR(128)")// password hash length is 69 chars!
                .IsRequired();
 
         builder.Property(x => x.UserName)
-                .HasColumnType("VARCHAR(100)")
+                .HasColumnType("VARCHAR(128)")
                 .IsRequired();
 
         builder.Property(x => x.NormalizedUserName)
-               .HasColumnType("VARCHAR(100)")//  100 in case future encrypt but the actual length should not exceed 18
+               .HasColumnType("VARCHAR(128)")//  100 in case future encrypt but the actual length should not exceed 18
                .IsRequired();
 
         builder.Property(x => x.TwoFactorEnabled)
